@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  --sb-track-color-dark: #1e293b;
+  --sb-thumb-color-dark: #0f172a;
+  --sb-track-color: #f1f5f9;
+  --sb-thumb-color: #cbd5e1;
+
+  --sb-size: 8px;
+
+  --sidebar-sb-size: 10px;
+
+  scrollbar-color: var(--sb-thumb-color-dark) var(--sb-track-color-dark);
+}
+
+/* Scrollbar */
+
+*::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 9999px;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: var(--sidebar-sb-size);
+  height: var(--sidebar-sb-size);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 9999px;
+  border: 3px solid var(--sb-track-color);
+}
+
+.server::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.server::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.server::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+/* Darkmode Scrollbar */
+
+.dark body {
+  scrollbar-color: var(--sb-thumb-color-dark) var(--sb-track-color-dark);
+}
+
+.dark *::-webkit-scrollbar {
+  width: var(--sb-size);
+  height: var(--sb-size);
+}
+
+.dark *::-webkit-scrollbar-track {
+  background: var(--sb-track-color-dark);
+  border-radius: 9999px;
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color-dark);
+  border-radius: 9999px;
+}
+
+.dark .sidebar::-webkit-scrollbar {
+  width: var(--sidebar-sb-size);
+  height: var(--sidebar-sb-size);
+}
+
+.dark .sidebar::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color-dark);
+  border-radius: 9999px;
+  border: 3px solid var(--sb-track-color-dark);
+}
+
+.dark .server::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.dark .server::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.dark .server::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+}
