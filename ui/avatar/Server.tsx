@@ -1,22 +1,24 @@
-'use client';
+"use client";
 
-import { motion, MotionConfig } from 'framer-motion';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useState } from 'react';
+import { motion, MotionConfig } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 
 interface AvatarProps {
   width?: string | number;
   height?: string | number;
-  src: string;
+  src?: string;
   title: string;
+  server: string;
 }
 
 export default function ServerAvatar({
-  width = 'auto',
-  height = 'auto',
+  width = "auto",
+  height = "auto",
   src,
   title,
+  server,
 }: AvatarProps) {
   const [hovered, setHovered] = useState<boolean>(false);
 
@@ -32,8 +34,8 @@ export default function ServerAvatar({
             className="rounded-r-full bg-slate-900 dark:bg-slate-50"
             initial={false}
             animate={{
-              width: hovered ? '.25rem' : 0,
-              height: hovered ? '1.5rem' : 0,
+              width: hovered ? ".25rem" : 0,
+              height: hovered ? "1.5rem" : 0,
             }}
           />
         </div>
@@ -42,11 +44,17 @@ export default function ServerAvatar({
           style={{ width: width, height: height }}
           initial={false}
           animate={{
-            borderRadius: hovered ? '24px' : '32px',
+            borderRadius: hovered ? "24px" : "32px",
           }}
         >
-          <Link href="/channel/test/test">
-            <Image src={src} alt={title} fill />
+          <Link href={`/channel/${server}`}>
+            {src ? (
+              <Image src={src} alt={title} fill />
+            ) : (
+              <div className="font-bold w-full h-full text-xl grid place-items-center capitalize">
+                {title.slice(0, 2)}
+              </div>
+            )}
           </Link>
         </motion.div>
       </li>

@@ -1,6 +1,14 @@
-import ServerAvatar from '#/ui/avatar/Server';
+import { ServerTypes } from "#/types/ServerTypes";
+import ServerAvatar from "#/ui/avatar/Server";
+import { Models } from "appwrite";
 
-export default function ServerSidebar() {
+type Servers = ServerTypes & Models.Document;
+
+interface SidebarProps {
+  content: Servers[];
+}
+
+export default function ServerSidebar({ content }: SidebarProps) {
   return (
     <aside className="w-20 flex-none py-4 bg-slate-300 h-full overflow-hidden dark:bg-slate-900">
       <ul className="server w-full h-full flex flex-col flex-nowrap overflow-y-auto items-center gap-2">
@@ -12,31 +20,16 @@ export default function ServerSidebar() {
           />
           <div className="w-10 h-0.5 rounded-full bg-slate-500" />
         </div>
-        <ServerAvatar
-          width="70%"
-          src="https://source.unsplash.com/random"
-          title="Server Icon"
-        />
-        <ServerAvatar
-          width="70%"
-          src="https://source.unsplash.com/random"
-          title="Server Icon"
-        />
-        <ServerAvatar
-          width="70%"
-          src="https://source.unsplash.com/random"
-          title="Server Icon"
-        />
-        <ServerAvatar
-          width="70%"
-          src="https://source.unsplash.com/random"
-          title="Server Icon"
-        />
-        <ServerAvatar
-          width="70%"
-          src="https://source.unsplash.com/random"
-          title="Server Icon"
-        />
+        {content.map((server: Servers) => {
+          return (
+            <ServerAvatar
+              key={server.$id}
+              width="70%"
+              title={server.title}
+              server={server.$id}
+            />
+          );
+        })}
       </ul>
     </aside>
   );
