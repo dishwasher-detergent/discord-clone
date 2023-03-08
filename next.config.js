@@ -15,6 +15,20 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/channel/@me",
+        permanent: true,
+      },
+      {
+        source: "/channel",
+        destination: "/channel/@me",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

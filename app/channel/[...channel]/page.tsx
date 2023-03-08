@@ -5,28 +5,24 @@ import ServerSidebar from "#/ui/layout/sidebar/server/Sidebar";
 import SidebarWrapper from "#/ui/layout/sidebar/Wrapper";
 import api from "#/utils/appwrite";
 import { ServerTypes } from "#/types/ServerTypes";
-import { Models, Query } from "appwrite";
+import { Query } from "appwrite";
 import { ChannelTypes } from "#/types/ChannelTypes";
 import { MessageTypes } from "#/types/MessageTypes";
 
-type Servers = ServerTypes & Models.Document;
-type Channels = ChannelTypes & Models.Document;
-type Messages = MessageTypes & Models.Document;
-
 type SidebarType = {
   title: string;
-  channels: Channels[];
+  channels: ChannelTypes[];
 };
 
 type TextType = {
   channel: string;
-  messages: Messages[];
+  messages: MessageTypes[];
 };
 
-async function getServerSidebarContent(): Promise<Servers[]> {
+async function getServerSidebarContent(): Promise<ServerTypes[]> {
   const servers = await api.listDocuments("6407d0c519ecaeb89836");
 
-  const servers_results = servers.documents as Servers[];
+  const servers_results = servers.documents as ServerTypes[];
 
   return servers_results;
 }
@@ -39,7 +35,7 @@ async function getSidebarContent(server: string): Promise<SidebarType> {
     Query.equal("server", server),
   ]);
 
-  const channels_results = channels.documents as Channels[];
+  const channels_results = channels.documents as ChannelTypes[];
 
   return { title: server_name, channels: channels_results };
 }
@@ -57,20 +53,18 @@ async function getTextContent(
     Query.equal("channel", channel),
   ]);
 
-  const messages_results = messages.documents as Messages[];
+  const messages_results = messages.documents as MessageTypes[];
 
   return { channel: channel_name, messages: messages_results };
 }
 
 export default async function Channel({ params }: { params: any }) {
-  const servers: Servers[] = await getServerSidebarContent();
+  const servers: ServerTypes[] = await getServerSidebarContent();
   const sidebar: SidebarType = await getSidebarContent(params.channel[0]);
   const text: TextType = await getTextContent(
     params.channel[0],
     params.channel[1]
   );
-
-  console.log(servers);
 
   return (
     <Wrapper>
