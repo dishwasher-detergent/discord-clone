@@ -10,7 +10,7 @@ export default function SidebarWrapper({
 }: {
   children: React.ReactElement | React.ReactElement[];
 }) {
-  const { medium, small } = useWindowDimensions();
+  const { medium } = useWindowDimensions();
   /* @ts-ignore */
   const { sidebar, toggleSidebar } = useContext(SidebarContext);
 
@@ -19,11 +19,11 @@ export default function SidebarWrapper({
       {sidebar && (
         <motion.aside
           initial={{ width: 0 }}
-          animate={{ width: "auto" }}
+          animate={{ width: medium ? "24rem" : "80%" }}
           exit={{ width: 0 }}
           transition={{ ease: "easeInOut", duration: 0.25 }}
           key="sidebar"
-          className="flex flex-row flex-nowrap justify-start"
+          className="flex flex-row flex-nowrap justify-start overflow-hidden"
         >
           {children}
         </motion.aside>

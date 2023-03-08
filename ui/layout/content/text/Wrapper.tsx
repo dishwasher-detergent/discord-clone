@@ -16,9 +16,12 @@ export default function TextWrapper({ children }: WrapperProps) {
 
   return (
     <motion.main
-      animate={{ opacity: sidebar && !medium ? 0.75 : 1 }}
+      animate={{
+        opacity: sidebar && !medium ? 0.75 : 1,
+        borderTopLeftRadius: sidebar && !medium ? ".75rem" : 0,
+      }}
       transition={{ delay: sidebar ? 0.2 : 0, duration: sidebar ? 0.15 : 0 }}
-      className="w-full h-full flex flex-col flex-nowrap overflow-hidden rounded-tl-xl md:rounded-none bg-slate-50 dark:bg-slate-700 z-40 relative"
+      className="flex-1 h-full overflow-hidden bg-slate-50 dark:bg-slate-700 z-40 relative"
     >
       {sidebar && !medium && (
         <button
@@ -27,7 +30,9 @@ export default function TextWrapper({ children }: WrapperProps) {
           onClick={() => toggleSidebar()}
         />
       )}
-      {children}
+      <div className="w-screen md:w-full h-full flex flex-col flex-nowrap">
+        {children}
+      </div>
     </motion.main>
   );
 }
