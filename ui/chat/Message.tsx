@@ -20,7 +20,12 @@ export default function Message({
         <div className="flex flex-row items-center overflow-hidden gap-2">
           <p className="font-bold truncate">{content.creator}</p>
           <p className="text-xs flex-none text-slate-600 dark:text-slate-300">
-            {content.$createdAt}
+            {new Date(content.$createdAt).toLocaleDateString("en-us", {
+              weekday: "long",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
           </p>
         </div>
         <div className="">{content.message}</div>
