@@ -13,15 +13,12 @@ interface ProviderProps {
 const SidebarProvider = ({ children }: ProviderProps) => {
   const { width, medium } = useWindowDimensions();
 
-  const [sidebar, setSidebar] = useState<boolean>(false);
+  const [sidebar, setSidebar] = useState<boolean>(medium ? true : false);
+
   function toggleSidebar() {
     if (arguments.length > 0) setSidebar(arguments[0]);
     else setSidebar(!sidebar);
   }
-
-  useEffect(() => {
-    if (medium) setSidebar(true);
-  }, [width]);
 
   return (
     <SidebarContext.Provider value={{ sidebar, toggleSidebar }}>

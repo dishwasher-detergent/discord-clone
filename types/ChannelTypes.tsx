@@ -5,6 +5,7 @@ export type SiloedChannelTypes = {
   description: string;
   type: "voice" | "text";
   server: string;
+  default: boolean;
 };
 
 export type ChannelTypes = SiloedChannelTypes & Models.Document;
