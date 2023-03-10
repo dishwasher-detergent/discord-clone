@@ -47,6 +47,7 @@ type ApiType = {
   getAccount: () => Promise<Models.Account<Models.Preferences>>;
   setSession: (hash: string | RequestCookie) => void;
   createSession: (email: string, password: string) => Promise<Models.Session>;
+  createAnonymousSession: () => Promise<Models.Session>;
   getSession: () => Promise<Models.Session>;
   deleteCurrentSession: () => Promise<{}>;
   createDocument: (collectionId: string, data: any) => Promise<any>;
@@ -81,6 +82,7 @@ const api: ApiType = {
     const client = new Client()
       .setEndpoint(Server.endpoint)
       .setProject(Server.project);
+
     const account = new Account(client);
     const database = new Databases(client);
     const storage = new Storage(client);
@@ -111,6 +113,10 @@ const api: ApiType = {
 
   createSession: async (email, password) => {
     return await api.provider().account.createEmailSession(email, password);
+  },
+
+  createAnonymousSession: async () => {
+    return await api.provider().account.createAnonymousSession();
   },
 
   getSession: async () => {

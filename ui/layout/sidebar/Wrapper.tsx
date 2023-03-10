@@ -12,10 +12,10 @@ export default function SidebarWrapper({
 }) {
   const { medium } = useWindowDimensions();
   /* @ts-ignore */
-  const { sidebar, toggleSidebar } = useContext(SidebarContext);
+  const { sidebar } = useContext(SidebarContext);
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence initial={false}>
       {sidebar && (
         <motion.aside
           initial={{ width: 0 }}

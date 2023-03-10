@@ -1,31 +1,64 @@
-import Avatar from '#/ui/avatar/User';
-import { Mic, Headphones, Settings } from 'lucide-react';
+"use client";
+
+import Avatar from "#/ui/avatar/User";
+import IconButton from "#/ui/buttons/Icon";
+import api from "#/utils/appwrite";
+import { Mic, Headphones, Settings } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Account() {
+  const [account, setAccount] = useState<any>(null);
+
+  useEffect(() => {
+    api.getAccount().then((res) => setAccount(res));
+  }, []);
+
   return (
     <div className="w-full h-14 border-t border-slate-300 flex items-center p-2 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900">
-      <div className="h-full w-full flex-1 flex flex-row flex-nowrap items-center gap-2">
-        <Avatar
-          height={'100%'}
-          src="https://source.unsplash.com/random"
-          title="User Icon"
-        />
-        <div className="text-xs overflow-hidden dark:text-white">
-          <p className="truncate font-bold">DishwasherDetergent</p>
-          <p>#1295</p>
-        </div>
-      </div>
-      <div className="flex-none">
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white">
-          <Mic size={20} />
-        </button>
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white">
-          <Headphones size={20} />
-        </button>
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white">
-          <Settings size={20} />
-        </button>
-      </div>
+      {account && (
+        <>
+          <div className="h-full w-full flex-1 flex flex-row flex-nowrap items-center gap-2">
+            <Avatar
+              height={"100%"}
+              src="https://source.unsplash.com/random"
+              title="User Icon"
+            />
+            <div className="text-sm overflow-hidden dark:text-white">
+              <p className="truncate font-bold">{account.name}</p>
+              <p className="text-xs truncate">{account.$id}</p>
+            </div>
+          </div>
+          <div className="flex-none flex flex-row flex-nowrap">
+            <IconButton
+              tooltip={{
+                message: "Mute",
+                align: "center",
+                position: "top",
+              }}
+            >
+              <Mic size={20} />
+            </IconButton>
+            <IconButton
+              tooltip={{
+                message: "Deafen",
+                align: "center",
+                position: "top",
+              }}
+            >
+              <Headphones size={20} />
+            </IconButton>
+            <IconButton
+              tooltip={{
+                message: "User Settings",
+                align: "center",
+                position: "top",
+              }}
+            >
+              <Settings size={20} />
+            </IconButton>
+          </div>
+        </>
+      )}
     </div>
   );
 }
