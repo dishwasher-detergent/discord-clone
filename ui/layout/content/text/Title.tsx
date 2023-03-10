@@ -1,6 +1,7 @@
-import Input from '#/ui/form/Input';
-import SidebarToggle from '#/ui/toggles/SidebarToggle';
-import { Pin, Hash, Users, Bell, HelpCircle, Inbox, Menu } from 'lucide-react';
+import IconButton from "#/ui/buttons/Icon";
+import Input from "#/ui/form/Input";
+import SidebarToggle from "#/ui/toggles/SidebarToggle";
+import { Pin, Hash, Users, Bell, HelpCircle, Inbox, Menu } from "lucide-react";
 
 interface TitleProps {
   children: React.ReactNode;
@@ -19,25 +20,49 @@ export default function TextTitle({ children }: TitleProps) {
         </h2>
       </div>
       <div className="flex-none flex flex-row gap-1">
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white hidden md:block">
+        <IconButton
+          tooltip={{ message: "Threads", position: "bottom", align: "center" }}
+        >
           <Hash size={20} />
-        </button>
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white hidden md:block">
+        </IconButton>
+        <IconButton
+          tooltip={{
+            message: "Notification Settings",
+            position: "bottom",
+            align: "center",
+          }}
+        >
           <Bell size={20} />
-        </button>
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white hidden md:block">
+        </IconButton>
+        <IconButton
+          tooltip={{
+            message: "Pinned Messages",
+            position: "bottom",
+            align: "center",
+          }}
+        >
           <Pin size={20} />
-        </button>
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white">
+        </IconButton>
+        <IconButton
+          tooltip={{
+            message: "Hide Member List",
+            position: "bottom",
+            align: "center",
+          }}
+        >
           <Users size={20} />
-        </button>
+        </IconButton>
         <Input placeholder="Search" />
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white hidden md:block">
+        <IconButton
+          tooltip={{ message: "Inbox", position: "bottom", align: "center" }}
+        >
           <Inbox size={20} />
-        </button>
-        <button className="p-2 rounded-xl hover:hover:bg-slate-700/10 dark:hover:hover:bg-white/10 dark:text-white hidden md:block">
+        </IconButton>
+        <IconButton
+          tooltip={{ message: "Test", position: "bottom", align: "end" }}
+        >
           <HelpCircle size={20} />
-        </button>
+        </IconButton>
       </div>
     </div>
   );

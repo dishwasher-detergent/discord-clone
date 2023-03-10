@@ -1,12 +1,7 @@
 import { MessageTypes } from "#/types/MessageTypes";
 import Avatar from "#/ui/avatar/User";
-import { Models } from "appwrite";
 
-export default function Message({
-  content,
-}: {
-  content: MessageTypes & Models.Document;
-}) {
+export default function Message({ content }: { content: MessageTypes }) {
   return (
     <div className="w-full flex flex-row flex-nowrap gap-2">
       <div className="h-full w-12 flex-none overflow-hidden">
