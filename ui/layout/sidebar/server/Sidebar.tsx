@@ -1,5 +1,6 @@
 import { ServerTypes } from "#/types/ServerTypes";
 import ServerAvatar from "#/ui/avatar/Server";
+import CreateServerForm from "#/ui/form/server/create/Form";
 import Login from "#/ui/login/Login";
 import { Models } from "appwrite";
 
@@ -27,6 +28,7 @@ export default function ServerSidebar({ content }: SidebarProps) {
             />
           );
         })}
+        <CreateServerForm />
       </ul>
     </aside>
   );

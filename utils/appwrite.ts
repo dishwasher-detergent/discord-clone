@@ -8,6 +8,7 @@ import {
   Locale,
   Avatars,
   Query,
+  Teams,
 } from "appwrite";
 import { Server } from "#/utils/config";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -34,6 +35,7 @@ type SdkType = {
   client: Client;
   locale: Locale;
   avatar: Avatars;
+  team: Teams;
 };
 
 type ApiType = {
@@ -50,7 +52,12 @@ type ApiType = {
   createAnonymousSession: () => Promise<Models.Session>;
   getSession: () => Promise<Models.Session>;
   deleteCurrentSession: () => Promise<{}>;
-  createDocument: (collectionId: string, data: any) => Promise<any>;
+  createTeam: (teamId: string, name: string) => Promise<Models.Team>;
+  createDocument: (
+    collectionId: string,
+    data: any,
+    permissions?: string[]
+  ) => Promise<any>;
   listDocuments: (
     collectionId: string,
     order?: string[]
@@ -88,8 +95,9 @@ const api: ApiType = {
     const storage = new Storage(client);
     const locale = new Locale(client);
     const avatar = new Avatars(client);
+    const team = new Teams(client);
 
-    api.sdk = { database, account, storage, client, locale, avatar };
+    api.sdk = { database, account, storage, client, locale, avatar, team };
 
     return api.sdk;
   },
@@ -127,14 +135,19 @@ const api: ApiType = {
     return await api.provider().account.deleteSession("current");
   },
 
-  createDocument: async (collectionId, data) => {
+  createTeam: async (teamId: string, name: string) => {
+    return await api.provider().team.create(teamId, name);
+  },
+
+  createDocument: async (collectionId, data, permissions = []) => {
     return await api
       .provider()
       .database.createDocument(
         Server.databaseID,
         collectionId,
         ID.unique(),
-        data
+        data,
+        permissions
       );
   },
 

@@ -25,7 +25,7 @@ export default function ServerMenu() {
       <DropdownMenu.Portal>
         <DropdownMenu.Content
           align="end"
-          className="w-60 rounded-xl bg-white dark:bg-slate-900 z-[9999] p-2 text-white shadow-lg"
+          className="w-60 rounded-xl bg-white dark:bg-slate-900 z-[1000] p-2 text-white shadow-lg"
         >
           <DropdownMenu.Label />
 

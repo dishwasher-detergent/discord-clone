@@ -2,25 +2,20 @@
 
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { motion, MotionConfig } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
+import { Compass, Plus } from "lucide-react";
 import { useState } from "react";
 
-interface AvatarProps {
+interface CreateServerProps {
   width?: string | number;
   height?: string | number;
-  src?: string;
-  title: string;
-  server: string;
+  setOpen: () => void;
 }
 
-export default function ServerAvatar({
+export default function CreateButton({
   width = "auto",
   height = "auto",
-  src,
-  title,
-  server,
-}: AvatarProps) {
+  setOpen,
+}: CreateServerProps) {
   const [hovered, setHovered] = useState<boolean>(false);
 
   return (
@@ -43,24 +38,17 @@ export default function ServerAvatar({
                   }}
                 />
               </div>
-              <motion.div
-                className="bg-slate-900 aspect-square cursor-pointer dark:bg-slate-50 overflow-hidden relative"
+              <motion.button
+                onClick={setOpen}
+                className="bg-white aspect-square cursor-pointer dark:bg-slate-50 overflow-hidden relative grid place-items-center hover:bg-green-600 hover:text-white text-green-600"
                 style={{ width: width, height: height }}
                 initial={false}
                 animate={{
                   borderRadius: hovered ? "24px" : "32px",
                 }}
               >
-                <Link href={`/channel/${server}`}>
-                  {src ? (
-                    <Image src={src} alt={title} fill />
-                  ) : (
-                    <div className="font-bold w-full h-full text-xl grid place-items-center capitalize">
-                      {title.slice(0, 2)}
-                    </div>
-                  )}
-                </Link>
-              </motion.div>
+                <Plus size={24} />
+              </motion.button>
             </li>
           </Tooltip.Trigger>
           <Tooltip.Portal>
@@ -68,7 +56,7 @@ export default function ServerAvatar({
               side="right"
               className="shadow-lg z-[1000] py-1 px-2.5 rounded-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-white text-sm font-bold"
             >
-              {title}
+              Add a Server
               <Tooltip.Arrow />
             </Tooltip.Content>
           </Tooltip.Portal>

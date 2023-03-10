@@ -33,7 +33,7 @@ export default function IconButton({
           </Tooltip.Trigger>
           <Tooltip.Portal>
             <Tooltip.Content
-              className="shadow-lg z-[9999] py-1 px-2.5 rounded-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-white text-sm font-bold"
+              className="shadow-lg z-[1000] py-1 px-2.5 rounded-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-white text-sm font-bold"
               side={tooltip.position}
               align={tooltip.align}
             >

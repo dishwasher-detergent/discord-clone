@@ -21,7 +21,6 @@ export default function Loading() {
             <ChatInput channel={"loading"} server={"loading"} />
           </div>
         </div>
-        {/* <MemberList /> */}
       </div>
     </TextWrapper>
   );
