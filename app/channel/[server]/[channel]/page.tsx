@@ -5,6 +5,8 @@ import TextWrapper from "#/ui/layout/content/text/Wrapper";
 import MemberList from "#/ui/member/List";
 import TextTitle from "#/ui/layout/content/text/Title";
 import TextContent from "#/ui/layout/content/text/Content";
+import TextChat from "#/ui/layout/content/text/Chat";
+import ChatInput from "#/ui/chat/Input";
 
 type TextType = {
   channel: string;
@@ -38,13 +40,16 @@ export default async function Channel({ params }: { params: any }) {
     <TextWrapper>
       <TextTitle>{text.channel && text.channel}</TextTitle>
       <div className="h-full w-full overflow-hidden flex flex-row flex-nowrap">
-        {text.messages.length > 0 && (
-          <TextContent
-            messages={text.messages}
-            server={params.server}
+        <div className="flex-1 overflow-hidden w-full flex flex-col flex-nowrap p-2">
+          <TextChat
+            initialMessages={text.messages}
             channel={params.channel}
+            server={params.server}
           />
-        )}
+          <div className="p-4">
+            <ChatInput channel={params.channel} server={params.server} />
+          </div>
+        </div>
         <MemberList />
       </div>
     </TextWrapper>

@@ -2,6 +2,7 @@
 
 import { MessageTypes } from "#/types/MessageTypes";
 import Message from "#/ui/chat/Message";
+import ChatWelcome from "#/ui/chat/Welcome";
 import api from "#/utils/appwrite";
 import { Server } from "#/utils/config";
 import { Query } from "appwrite";
@@ -76,6 +77,7 @@ export default function TextChat({
         {messages.map((message: MessageTypes, index: number) => {
           return <Message key={message.$id} content={message} />;
         })}
+        <ChatWelcome server="test" />
       </div>
     </div>
   );
