@@ -20,6 +20,8 @@ export default function Message({ content }: { content: MessageTypes }) {
               year: "numeric",
               month: "short",
               day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
             })}
           </p>
         </div>

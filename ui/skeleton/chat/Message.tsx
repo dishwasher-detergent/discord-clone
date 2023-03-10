@@ -1,5 +1,5 @@
 import Avatar from "#/ui/avatar/User";
-import Skeleton from "react-loading-skeleton";
+import Skeleton from "#/ui/skeleton/Skeleton";
 
 export default function SkeletonMessage() {
   return (
@@ -14,26 +14,14 @@ export default function SkeletonMessage() {
       <div className="flex-1 overflow-hidden dark:text-white">
         <div className="flex flex-row items-center overflow-hidden gap-2">
           <p className="font-bold truncate">
-            <Skeleton
-              className="w-24"
-              baseColor="#1e293b"
-              highlightColor="#0f172a"
-            />
+            <Skeleton />
           </p>
           <p className="text-xs flex-none text-slate-600 dark:text-slate-300">
-            <Skeleton
-              className="w-16"
-              baseColor="#1e293b"
-              highlightColor="#0f172a"
-            />
+            <Skeleton />
           </p>
         </div>
         <div className="">
-          <Skeleton
-            baseColor="#1e293b"
-            highlightColor="#0f172a"
-            count={Math.floor(Math.random() * 10)}
-          />
+          <Skeleton maxRows={12} />
         </div>
       </div>
     </div>

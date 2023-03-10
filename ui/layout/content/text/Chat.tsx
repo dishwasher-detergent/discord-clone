@@ -59,6 +59,7 @@ export default function TextChat({
           Query.limit(5),
           Query.cursorAfter(messages[messages.length - 1].$id),
         ]);
+        console.log(fetch);
         const newMessages = fetch.documents as MessageTypes[];
         setMessages([...messages, ...newMessages]);
         element.scrollTop = prevScrollTop;

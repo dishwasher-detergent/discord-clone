@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import { SidebarProvider } from "#/context/sidebarContext";
-import "react-loading-skeleton/dist/skeleton.css";
 
 const font = Nunito({ subsets: ["latin"] });
 

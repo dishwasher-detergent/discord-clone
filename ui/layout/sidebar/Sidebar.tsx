@@ -15,7 +15,7 @@ export default function Sidebar({ content }: { content: any }) {
         {content.channels &&
           Object.keys(content.channels).map((category: any, index: number) => {
             return (
-              <Collapsible.Root key={index}>
+              <Collapsible.Root key={index} defaultOpen={true}>
                 <Collapsible.Trigger className="flex flex-row flex-nowrap items-center gap-2 uppercase text-xs font-bold w-full mb-2 ">
                   <ChevronDown size={10} />
                   <p>{category}</p>
@@ -25,7 +25,7 @@ export default function Sidebar({ content }: { content: any }) {
                     {content.channels[category].map((channel: ChannelTypes) => {
                       return (
                         <SidebarItem
-                          key={index}
+                          key={channel.$id}
                           type={channel.type}
                           channel={`${channel.server}/${channel.$id}`}
                         >
