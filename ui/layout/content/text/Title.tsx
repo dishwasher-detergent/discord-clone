@@ -1,13 +1,20 @@
+"use client";
+
 import IconButton from "#/ui/buttons/Icon";
 import Input from "#/ui/form/Input";
 import SidebarToggle from "#/ui/toggles/SidebarToggle";
 import { Pin, Hash, Users, Bell, HelpCircle, Inbox, Menu } from "lucide-react";
+import { useContext } from "react";
+import { MemberListContext } from "#/context/memberListContext";
 
 interface TitleProps {
   children: React.ReactNode;
 }
 
 export default function TextTitle({ children }: TitleProps) {
+  /* @ts-ignore */
+  const { memberList, toggleMemberList } = useContext(MemberListContext);
+
   return (
     <div className="w-full h-14 border-b border-slate-300 flex items-center px-4 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900 dark:bg-slate-700">
       <div className="flex flex-row gap-2">
@@ -44,8 +51,9 @@ export default function TextTitle({ children }: TitleProps) {
           <Pin size={20} />
         </IconButton>
         <IconButton
+          onClick={() => toggleMemberList()}
           tooltip={{
-            message: "Hide Member List",
+            message: `${memberList ? "Hide" : "Show"} Member List.`,
             position: "bottom",
             align: "center",
           }}

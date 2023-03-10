@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import { SidebarProvider } from "#/context/sidebarContext";
+import { MemberListProvider } from "#/context/memberListContext";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -17,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${font.className}`}>
       <SidebarProvider>
-        <body className="h-screen w-screen overflow-hidden flex flex-col flex-nowrap bg-slate-300 dark:bg-slate-900">
-          <div className="flex-1 flex flex-row flex-nowrap overflow-hidden">
-            {children}
-          </div>
-        </body>
+        <MemberListProvider>
+          <body className="h-screen w-screen overflow-hidden flex flex-col flex-nowrap bg-slate-300 dark:bg-slate-900">
+            <div className="flex-1 flex flex-row flex-nowrap overflow-hidden">
+              {children}
+            </div>
+          </body>
+        </MemberListProvider>
       </SidebarProvider>
     </html>
   );

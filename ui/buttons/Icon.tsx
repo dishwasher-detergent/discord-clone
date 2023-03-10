@@ -24,7 +24,10 @@ export default function IconButton({
       <Tooltip.Provider delayDuration={0}>
         <Tooltip.Root>
           <Tooltip.Trigger asChild>
-            <button className="test block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white">
+            <button
+              onClick={onClick}
+              className="test block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white"
+            >
               {children}
             </button>
           </Tooltip.Trigger>
@@ -41,7 +44,10 @@ export default function IconButton({
         </Tooltip.Root>
       </Tooltip.Provider>
     ) : (
-      <button className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white">
+      <button
+        onClick={onClick}
+        className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white"
+      >
         {children}
       </button>
     );
