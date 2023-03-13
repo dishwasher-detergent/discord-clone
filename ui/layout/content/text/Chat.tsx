@@ -25,47 +25,47 @@ export default function TextChat({
   const [response, setResponse] = useState<MessageTypes | null>(null);
   const messageContainer = useRef(null);
 
-  useEffect(() => {
-    const test = api
-      .provider()
-      .client.subscribe(
-        `databases.${Server.databaseID}.collections.6407d0ca13d1d255cd32.documents`,
-        (response: { payload: MessageTypes }) => {
-          setResponse(response.payload);
-        }
-      );
+  // useEffect(() => {
+  //   const test = api
+  //     .provider()
+  //     .client.subscribe(
+  //       `databases.${Server.databaseID}.collections.6407d0ca13d1d255cd32.documents`,
+  //       (response: { payload: MessageTypes }) => {
+  //         setResponse(response.payload);
+  //       }
+  //     );
 
-    return function cleanup() {
-      test();
-    };
-  }, []);
+  //   return function cleanup() {
+  //     test();
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    if (response) setMessages([response, ...messages]);
-  }, [response]);
+  // useEffect(() => {
+  //   if (response) setMessages([response, ...messages]);
+  // }, [response]);
 
   const onScroll = async () => {
-    if (fetchingMessages) return;
-    if (messageContainer.current) {
-      const element = messageContainer.current as any;
-      const { scrollTop, scrollHeight, clientHeight } = element;
-      if (Math.abs(scrollTop) + clientHeight === scrollHeight) {
-        setFetchingMessages(true);
-        setPrevScrollTop(scrollTop);
-        const fetch = await api.listDocuments("6407d0ca13d1d255cd32", [
-          Query.equal("server", server),
-          Query.equal("channel", channel),
-          Query.orderDesc("$createdAt"),
-          Query.limit(5),
-          Query.cursorAfter(messages[messages.length - 1].$id),
-        ]);
-        console.log(fetch);
-        const newMessages = fetch.documents as MessageTypes[];
-        setMessages([...messages, ...newMessages]);
-        element.scrollTop = prevScrollTop;
-        setFetchingMessages(false);
-      }
-    }
+    // if (fetchingMessages) return;
+    // if (messageContainer.current) {
+    //   const element = messageContainer.current as any;
+    //   const { scrollTop, scrollHeight, clientHeight } = element;
+    //   if (Math.abs(scrollTop) + clientHeight === scrollHeight) {
+    //     setFetchingMessages(true);
+    //     setPrevScrollTop(scrollTop);
+    //     const fetch = await api.listDocuments("6407d0ca13d1d255cd32", [
+    //       Query.equal("server", server),
+    //       Query.equal("channel", channel),
+    //       Query.orderDesc("$createdAt"),
+    //       Query.limit(5),
+    //       Query.cursorAfter(messages[messages.length - 1].$id),
+    //     ]);
+    //     console.log(fetch);
+    //     const newMessages = fetch.documents as MessageTypes[];
+    //     setMessages([...messages, ...newMessages]);
+    //     element.scrollTop = prevScrollTop;
+    //     setFetchingMessages(false);
+    //   }
+    // }
   };
 
   return (
@@ -76,7 +76,7 @@ export default function TextChat({
     >
       <div className="flex flex-col-reverse gap-8">
         {messages.map((message: MessageTypes, index: number) => {
-          return <Message key={message.$id} content={message} />;
+          return <Message key={message.message.$id} content={message} />;
         })}
         <ChatWelcome server="test" />
       </div>

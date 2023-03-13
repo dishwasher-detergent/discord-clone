@@ -13,9 +13,9 @@ export default function Message({ content }: { content: MessageTypes }) {
       </div>
       <div className="flex-1 overflow-hidden dark:text-white">
         <div className="flex flex-row items-center overflow-hidden gap-2">
-          <p className="font-bold truncate">{content.creator}</p>
+          <p className="font-bold truncate">{content.user.name}</p>
           <p className="text-xs flex-none text-slate-600 dark:text-slate-300">
-            {new Date(content.$createdAt).toLocaleDateString("en-us", {
+            {new Date(content.message.$createdAt).toLocaleDateString("en-us", {
               weekday: "long",
               year: "numeric",
               month: "short",
@@ -25,7 +25,7 @@ export default function Message({ content }: { content: MessageTypes }) {
             })}
           </p>
         </div>
-        <div className="">{content.message}</div>
+        <div className="">{content.message.message}</div>
       </div>
     </div>
   );

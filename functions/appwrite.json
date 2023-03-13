@@ -1,0 +1,21 @@
+{
+    "projectId": "6407cfc53a1af073bb89",
+    "projectName": "discord_clone",
+    "functions": [
+        {
+            "$id": "640fa83096da31a1f220",
+            "name": "getMessages",
+            "runtime": "node-16.0",
+            "path": "functions/getMessages",
+            "entrypoint": "src/index.js",
+            "ignore": [
+                "node_modules",
+                ".npm"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}

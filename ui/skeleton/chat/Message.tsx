@@ -12,7 +12,7 @@ export default function SkeletonMessage() {
         />
       </div>
       <div className="flex-1 overflow-hidden dark:text-white">
-        <div className="flex flex-row items-center overflow-hidden gap-2">
+        <div className="flex flex-row items-center overflow-hidden gap-2 pb-2">
           <p className="font-bold truncate">
             <Skeleton />
           </p>

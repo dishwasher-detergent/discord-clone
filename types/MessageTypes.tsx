@@ -7,8 +7,22 @@ export type SiloedMessageTypes = {
   channel: string;
 };
 
-export type MessageTypes = SiloedMessageTypes & Models.Document;
+export type UserType = {
+  id: string;
+  name: string;
+  prefs: {
+    avatar: string;
+  };
+};
+
+export type MessageTypes = {
+  message: SiloedMessageTypes & Models.Document;
+  user: UserType;
+};
 
 export interface MessageProps {
-  content: MessageTypes;
+  content: {
+    message: MessageTypes[];
+    user: UserType;
+  };
 }

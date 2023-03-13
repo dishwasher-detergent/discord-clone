@@ -17,11 +17,7 @@ export default function CreateServerForm() {
       title: serverName,
     });
 
-    console.log(server);
-
     const team = await api.createTeam(server.$id, serverName);
-
-    console.log(team);
 
     const channel = await api.createDocument(
       "6407d0c0eb16af0ec5e2",
@@ -34,8 +30,6 @@ export default function CreateServerForm() {
       },
       [Permission.read(Role.team(server.$id))]
     );
-
-    console.log(channel);
   };
 
   return (

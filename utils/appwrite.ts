@@ -9,6 +9,7 @@ import {
   Avatars,
   Query,
   Teams,
+  Functions,
 } from "appwrite";
 import { Server } from "#/utils/config";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -36,6 +37,7 @@ type SdkType = {
   locale: Locale;
   avatar: Avatars;
   team: Teams;
+  func: Functions;
 };
 
 type ApiType = {
@@ -76,6 +78,7 @@ type ApiType = {
   getFile: (fileId: string) => Promise<Models.File>;
   getFilePreview: (fileId: string, option: PreviewFileType) => URL;
   deleteFile: (fileID: string) => Promise<{}>;
+  getMessages: (functionId: string, data?: object) => Promise<Models.Execution>;
   checkSessionStatus: () => Promise<Models.Session | null>;
 };
 
@@ -96,8 +99,18 @@ const api: ApiType = {
     const locale = new Locale(client);
     const avatar = new Avatars(client);
     const team = new Teams(client);
+    const func = new Functions(client);
 
-    api.sdk = { database, account, storage, client, locale, avatar, team };
+    api.sdk = {
+      database,
+      account,
+      storage,
+      client,
+      locale,
+      avatar,
+      team,
+      func,
+    };
 
     return api.sdk;
   },
@@ -204,7 +217,13 @@ const api: ApiType = {
   },
 
   deleteFile: async (fileID) => {
-    return api.provider().storage.deleteFile(Server.bucketID, fileID);
+    return await api.provider().storage.deleteFile(Server.bucketID, fileID);
+  },
+
+  getMessages: async (functionId, data = {}) => {
+    return await api
+      .provider()
+      .func.createExecution(functionId, JSON.stringify(data));
   },
 
   checkSessionStatus: async () => {

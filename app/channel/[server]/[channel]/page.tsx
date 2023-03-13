@@ -21,14 +21,16 @@ async function getTextContent(
   const single_channel = await api.getDocument(channel, "6407d0c0eb16af0ec5e2");
   const channel_name = single_channel.title;
 
-  const messages = await api.listDocuments("6407d0ca13d1d255cd32", [
-    Query.equal("server", server),
-    Query.equal("channel", channel),
-    Query.orderDesc("$createdAt"),
-    Query.limit(25),
-  ]);
+  const messages = await api.getMessages("640fa83096da31a1f220", {
+    databaseId: "6407d0b0c40a37d4f06c",
+    collectionId: "6407d0ca13d1d255cd32",
+    server: "6407d4d050e0aba23b9d",
+    channel: "6407dda5c9524982b03e",
+    limit: 25,
+  });
 
-  const messages_results = messages.documents as MessageTypes[];
+  const messages_results = JSON.parse(messages.response)
+    .messages as MessageTypes[];
 
   return { channel: channel_name, messages: messages_results };
 }
