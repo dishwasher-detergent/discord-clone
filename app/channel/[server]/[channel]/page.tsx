@@ -1,10 +1,8 @@
 import api from "#/utils/appwrite";
-import { Query } from "appwrite";
 import { MessageTypes } from "#/types/MessageTypes";
 import TextWrapper from "#/ui/layout/content/text/Wrapper";
 import MemberList from "#/ui/member/List";
 import TextTitle from "#/ui/layout/content/text/Title";
-import TextContent from "#/ui/layout/content/text/Content";
 import TextChat from "#/ui/layout/content/text/Chat";
 import ChatInput from "#/ui/chat/Input";
 
@@ -24,8 +22,8 @@ async function getTextContent(
   const messages = await api.getMessages("640fa83096da31a1f220", {
     databaseId: "6407d0b0c40a37d4f06c",
     collectionId: "6407d0ca13d1d255cd32",
-    server: "6407d4d050e0aba23b9d",
-    channel: "6407dda5c9524982b03e",
+    server: server,
+    channel: channel,
     limit: 25,
   });
 
