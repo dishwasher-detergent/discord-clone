@@ -7,7 +7,7 @@ export default function Message({ content }: { content: MessageTypes }) {
       <div className="h-full w-12 flex-none overflow-hidden">
         <Avatar
           width={"100%"}
-          src="https://source.unsplash.com/random"
+          avatar={content.user.prefs.avatar}
           title="User Icon"
         />
       </div>
