@@ -20,7 +20,7 @@ export default function Account() {
           <div className="h-full w-full flex-1 flex flex-row flex-nowrap items-center gap-2">
             <Avatar
               height={"100%"}
-              src="https://source.unsplash.com/random"
+              avatar={account.prefs.avatar}
               title="User Icon"
             />
             <div className="text-sm overflow-hidden dark:text-white">
