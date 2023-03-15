@@ -10,7 +10,7 @@ export default function Skeleton({
       {[...Array(rows ? rows : Math.floor(Math.random() * maxRows) + 1)].map(
         (index: number) => (
           <div
-            key={index}
+            key={Math.random()}
             className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700"
             style={{
               width: `${Math.floor(Math.random() * (20 - 5 + 1) + 5)}rem`,

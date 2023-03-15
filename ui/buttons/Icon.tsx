@@ -37,7 +37,7 @@ export default function IconButton({
               side={tooltip.position}
               align={tooltip.align}
             >
-              <Tooltip.Arrow className="text-white dark:text-slate-900" />
+              <Tooltip.Arrow className="fill-white dark:fill-slate-900" />
               {tooltip.message}
             </Tooltip.Content>
           </Tooltip.Portal>

@@ -4,7 +4,7 @@ export default function SkeletonMessages({ count = 1 }: { count?: number }) {
   return (
     <>
       {[...Array(count)].map((index: number) => (
-        <SkeletonMessage key={index} />
+        <SkeletonMessage key={Math.random()} />
       ))}
     </>
   );
