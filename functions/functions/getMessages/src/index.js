@@ -46,19 +46,12 @@ module.exports = async function (req, res) {
       .setSelfSigned(true);
   }
 
-  const { databaseId, collectionId, server, channel, limit } = JSON.parse(
-    req.payload
-  );
+  const { databaseId, collectionId, filter } = JSON.parse(req.payload);
 
   const database_results = await database.listDocuments(
     databaseId,
     collectionId,
-    [
-      sdk.Query.equal("server", server),
-      sdk.Query.equal("channel", channel),
-      sdk.Query.orderDesc("$createdAt"),
-      sdk.Query.limit(limit),
-    ]
+    filter
   );
   const user_results = await users.list();
 
