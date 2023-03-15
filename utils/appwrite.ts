@@ -48,7 +48,7 @@ type ApiType = {
     password: string,
     name: string
   ) => Promise<Models.Account<Models.Preferences>>;
-  getAccount: () => Promise<Models.Account<Models.Preferences>>;
+  getAccount: () => Promise<Models.Account<Models.Preferences> | null>;
   setSession: (hash: string | RequestCookie) => void;
   createSession: (email: string, password: string) => Promise<Models.Session>;
   createAnonymousSession: () => Promise<Models.Session>;
@@ -63,11 +63,11 @@ type ApiType = {
   listDocuments: (
     collectionId: string,
     order?: string[]
-  ) => Promise<Models.DocumentList<Models.Document>>;
+  ) => Promise<Models.DocumentList<Models.Document> | null>;
   getDocument: (
     documentId: string,
     collectionId: string
-  ) => Promise<Models.Document>;
+  ) => Promise<Models.Document | null>;
   updateDocument: (
     collectionId: string,
     documentId: string,
@@ -122,7 +122,11 @@ const api: ApiType = {
   },
 
   getAccount: async () => {
-    return await api.provider().account.get();
+    try {
+      return await api.provider().account.get();
+    } catch (error) {
+      return null;
+    }
   },
 
   setSession: (hash) => {
@@ -166,15 +170,23 @@ const api: ApiType = {
 
   listDocuments: async (collectionId, order) => {
     let newOrder = order ? order : [Query.orderAsc("$id")];
-    return await api
-      .provider()
-      .database.listDocuments(Server.databaseID, collectionId, newOrder);
+    try {
+      return await api
+        .provider()
+        .database.listDocuments(Server.databaseID, collectionId, newOrder);
+    } catch (error) {
+      return null;
+    }
   },
 
   getDocument: async (documentId, collectionId) => {
-    return await api
-      .provider()
-      .database.getDocument(Server.databaseID, collectionId, documentId);
+    try {
+      return await api
+        .provider()
+        .database.getDocument(Server.databaseID, collectionId, documentId);
+    } catch (error) {
+      return null;
+    }
   },
 
   updateDocument: async (collectionId, documentId, data) => {
