@@ -1,18 +1,14 @@
-"use client";
-
 import Avatar from "#/ui/avatar/User";
 import IconButton from "#/ui/buttons/Icon";
 import api from "#/utils/appwrite";
+import { Models } from "appwrite";
 import { Mic, Headphones, Settings } from "lucide-react";
-import { useEffect, useState } from "react";
 
-export default function Account() {
-  const [account, setAccount] = useState<any>(null);
+interface AccountProps {
+  account: Models.Preferences;
+}
 
-  useEffect(() => {
-    api.getAccount().then((res) => setAccount(res));
-  }, []);
-
+export default function Account({ account }: AccountProps) {
   return (
     <div className="w-full h-14 border-t border-slate-300 flex items-center p-2 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900">
       {account && (

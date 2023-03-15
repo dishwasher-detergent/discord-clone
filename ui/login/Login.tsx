@@ -1,20 +1,15 @@
 "use client";
 
-import api from "#/utils/appwrite";
-
 export default function Login() {
   const Login = async () => {
-    // try {
-    //   const req = await fetch("/api/auth", {
-    //     method: "POST",
-    //     headers: new Headers({ "Content-Type": "application/json" }),
-    //   });
-
-    //   console.log(req);
-    // } catch (error: any) {
-    //   console.error(error);
-    // }
-    api.createAnonymousSession();
+    try {
+      const req = await fetch("/api/auth", {
+        method: "POST",
+        headers: new Headers({ "Content-Type": "application/json" }),
+      });
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   return (

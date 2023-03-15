@@ -3,7 +3,7 @@ import { Server } from "#/utils/config";
 export async function POST(req: any) {
   let request;
 
-  if (req.body) {
+  if (req.body.email && req.body.password) {
     // You could get email and password here
     const { email, password } = req.body;
 
