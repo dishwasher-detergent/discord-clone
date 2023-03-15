@@ -39,7 +39,7 @@ export default function Sidebar({ content }: { content: any }) {
             );
           })}
       </ul>
-      <Account />
+      <Account account={content.account} />
     </aside>
   );
 }

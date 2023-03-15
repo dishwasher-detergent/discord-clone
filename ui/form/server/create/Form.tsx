@@ -2,7 +2,7 @@
 
 import api from "#/utils/appwrite";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Permission, Role } from "appwrite";
+import { ID, Permission, Role } from "appwrite";
 import { X } from "lucide-react";
 import { useState } from "react";
 import Input from "../../Input";
@@ -13,11 +13,18 @@ export default function CreateServerForm() {
   const [serverName, setServerName] = useState<string>("");
 
   const createServer = async () => {
-    const server = await api.createDocument("6407d0c519ecaeb89836", {
-      title: serverName,
-    });
+    const team = await api.createTeam(ID.unique(), serverName);
+    console.log(team);
 
-    const team = await api.createTeam(server.$id, serverName);
+    const server = await api.createDocument(
+      "6407d0c519ecaeb89836",
+      {
+        team: team.$id,
+        title: serverName,
+      },
+      [Permission.read(Role.team(team.$id))]
+    );
+    console.log(server);
 
     const channel = await api.createDocument(
       "6407d0c0eb16af0ec5e2",
@@ -28,8 +35,9 @@ export default function CreateServerForm() {
         type: "text",
         default: true,
       },
-      [Permission.read(Role.team(server.$id))]
+      [Permission.read(Role.team(team.$id))]
     );
+    console.log(channel);
   };
 
   return (

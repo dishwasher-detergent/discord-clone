@@ -11,18 +11,18 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Channel({ params }: { params: any }) {
-  const router = useRouter();
+  // const router = useRouter();
 
-  useEffect(() => {
-    api
-      .listDocuments("6407d0c0eb16af0ec5e2", [
-        Query.equal("default", true),
-        Query.equal("server", params.server),
-      ])
-      .then((response) => {
-        router.push(`channel/${params.server}/${response.documents[0].$id}`);
-      });
-  }, []);
+  // useEffect(() => {
+  //   api
+  //     .listDocuments("6407d0c0eb16af0ec5e2", [
+  //       Query.equal("default", true),
+  //       Query.equal("server", params.server),
+  //     ])
+  //     .then((response) => {
+  //       router.push(`channel/${params.server}/${response.documents[0].$id}`);
+  //     });
+  // }, []);
 
   return (
     <TextWrapper>

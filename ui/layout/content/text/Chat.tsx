@@ -46,9 +46,12 @@ export default function TextChat({
         .getMessages("640fa83096da31a1f220", {
           databaseId: Server.databaseID,
           collectionId: "6407d0ca13d1d255cd32",
-          server: server,
-          channel: channel,
-          limit: 1,
+          filter: [
+            Query.equal("server", server),
+            Query.equal("channel", channel),
+            Query.orderDesc("$createdAt"),
+            Query.limit(25),
+          ],
         })
         .then((res) => {
           const message = JSON.parse(res.response).messages[0] as MessageTypes;
@@ -68,11 +71,15 @@ export default function TextChat({
         const fetch = await api.getMessages("640fa83096da31a1f220", {
           databaseId: Server.databaseID,
           collectionId: "6407d0ca13d1d255cd32",
-          server: server,
-          channel: channel,
-          limit: 25,
+          filter: [
+            Query.equal("server", server),
+            Query.equal("channel", channel),
+            Query.orderDesc("$createdAt"),
+            Query.limit(25),
+            Query.cursorAfter(messages[messages.length - 1].message.$id),
+          ],
         });
-        console.log(fetch);
+
         const newMessages = JSON.parse(fetch.response)
           .messages as MessageTypes[];
         setMessages([...messages, ...newMessages]);

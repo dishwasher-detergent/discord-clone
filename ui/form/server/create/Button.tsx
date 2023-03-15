@@ -57,7 +57,7 @@ export default function CreateButton({
               className="shadow-lg z-[1000] py-1 px-2.5 rounded-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-white text-sm font-bold"
             >
               Add a Server
-              <Tooltip.Arrow />
+              <Tooltip.Arrow className="fill-white dark:fill-slate-900" />
             </Tooltip.Content>
           </Tooltip.Portal>
         </Tooltip.Root>

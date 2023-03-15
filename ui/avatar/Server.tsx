@@ -55,7 +55,7 @@ export default function ServerAvatar({
                   {src ? (
                     <Image src={src} alt={title} fill />
                   ) : (
-                    <div className="font-bold w-full h-full text-xl grid place-items-center capitalize">
+                    <div className="font-bold w-full h-full text-xl grid place-items-center capitalize text-white dark:text-slate-900">
                       {title.slice(0, 2)}
                     </div>
                   )}
@@ -69,7 +69,7 @@ export default function ServerAvatar({
               className="shadow-lg z-[1000] py-1 px-2.5 rounded-xl bg-white text-slate-900 dark:bg-slate-900 dark:text-white text-sm font-bold"
             >
               {title}
-              <Tooltip.Arrow />
+              <Tooltip.Arrow className="fill-white dark:fill-slate-900" />
             </Tooltip.Content>
           </Tooltip.Portal>
         </Tooltip.Root>

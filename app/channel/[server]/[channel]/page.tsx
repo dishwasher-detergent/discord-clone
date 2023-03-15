@@ -5,6 +5,7 @@ import MemberList from "#/ui/member/List";
 import TextTitle from "#/ui/layout/content/text/Title";
 import TextChat from "#/ui/layout/content/text/Chat";
 import ChatInput from "#/ui/chat/Input";
+import { Query } from "appwrite";
 
 type TextType = {
   channel: string;
@@ -16,15 +17,21 @@ async function getTextContent(
   channel: string
 ): Promise<TextType> {
   if (!channel) return { channel: "", messages: [] };
+  let channel_name;
   const single_channel = await api.getDocument(channel, "6407d0c0eb16af0ec5e2");
-  const channel_name = single_channel.title;
+  if (single_channel) {
+    channel_name = single_channel.title;
+  }
 
   const messages = await api.getMessages("640fa83096da31a1f220", {
     databaseId: "6407d0b0c40a37d4f06c",
     collectionId: "6407d0ca13d1d255cd32",
-    server: server,
-    channel: channel,
-    limit: 25,
+    filter: [
+      Query.equal("server", server),
+      Query.equal("channel", channel),
+      Query.orderDesc("$createdAt"),
+      Query.limit(25),
+    ],
   });
 
   const messages_results = JSON.parse(messages.response)
