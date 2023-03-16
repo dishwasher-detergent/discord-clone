@@ -1,3 +1,5 @@
+"use client";
+
 import SkeletonMessage from "#/ui/skeleton/chat/Message";
 
 export default function SkeletonMessages({ count = 1 }: { count?: number }) {

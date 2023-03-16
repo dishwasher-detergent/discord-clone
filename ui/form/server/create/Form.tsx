@@ -1,12 +1,12 @@
 "use client";
 
+import Input from "#/ui/form/Input";
+import CreateButton from "#/ui/form/server/create/Button";
 import api from "#/utils/appwrite";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ID, Permission, Role } from "appwrite";
 import { X } from "lucide-react";
 import { useState } from "react";
-import Input from "../../Input";
-import CreateButton from "./Button";
 
 export default function CreateServerForm() {
   const [open, setOpen] = useState(false);
@@ -14,7 +14,6 @@ export default function CreateServerForm() {
 
   const createServer = async () => {
     const team = await api.createTeam(ID.unique(), serverName);
-    console.log(team);
 
     const server = await api.createDocument(
       "6407d0c519ecaeb89836",
@@ -22,9 +21,11 @@ export default function CreateServerForm() {
         team: team.$id,
         title: serverName,
       },
-      [Permission.read(Role.team(team.$id))]
+      [
+        Permission.read(Role.team(team.$id)),
+        Permission.write(Role.team(team.$id, "owner")),
+      ]
     );
-    console.log(server);
 
     const channel = await api.createDocument(
       "6407d0c0eb16af0ec5e2",
@@ -35,9 +36,11 @@ export default function CreateServerForm() {
         type: "text",
         default: true,
       },
-      [Permission.read(Role.team(team.$id))]
+      [
+        Permission.read(Role.team(team.$id)),
+        Permission.write(Role.team(team.$id, "owner")),
+      ]
     );
-    console.log(channel);
   };
 
   return (

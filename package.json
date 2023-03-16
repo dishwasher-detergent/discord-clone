@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "ssl": "node utils/next-dev-ssl.js | next dev -h kennybass.xyz -p 3001",
+    "dev": "next dev -p 3001 -H kennybass.xyz",
+    "proxy": "node utils/next-dev-ssl.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

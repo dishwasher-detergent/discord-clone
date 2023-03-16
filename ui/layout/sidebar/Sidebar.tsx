@@ -1,19 +1,60 @@
 "use client";
 
 import SidebarTitle from "#/ui/layout/sidebar/Title";
-import Account from "./Account";
 import SidebarItem from "./Item";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { ChannelTypes } from "#/types/ChannelTypes";
 import { ChevronDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import api from "#/utils/appwrite";
+import { ServerTypes } from "#/types/ServerTypes";
+import { Query } from "appwrite";
+import Account from "#/ui/layout/sidebar/Account";
 
-export default function Sidebar({ content }: { content: any }) {
+//   const account = await checkLoggedInStatus();
+
+export default function Sidebar({ server }: { server: string }) {
+  const [serverInfo, setServer] = useState<ServerTypes | null>(null);
+  const [channels, setChannel] = useState<ChannelTypes[]>([]);
+
+  useEffect(() => {
+    api.getDocument(server, "6407d0c519ecaeb89836").then((response) => {
+      const servers = response as ServerTypes;
+
+      setServer(servers);
+    });
+  }, []);
+
+  useEffect(() => {
+    api
+      .listDocuments("6407d0c0eb16af0ec5e2", [Query.equal("server", server)])
+      .then((response) => {
+        let category = [];
+
+        if (response) {
+          const channels = response?.documents as ChannelTypes[];
+
+          category = channels.reduce(
+            (groups: any, item: any) => ({
+              ...groups,
+              [item.category.toLowerCase()]: [
+                ...(groups[item.category.toLowerCase()] || []),
+                item,
+              ],
+            }),
+            {}
+          );
+        }
+        setChannel(category);
+      });
+  }, []);
+
   return (
     <aside className="flex-1 rounded-t-xl md:rounded-tl-xl md:rounded-tr-none flex h-full bg-slate-100 overflow-hidden flex-col flex-nowrap dark:bg-slate-800">
-      <SidebarTitle>{content.title}</SidebarTitle>
+      <SidebarTitle>{serverInfo && serverInfo.title}</SidebarTitle>
       <ul className="sidebar w-full py-4 px-2.5 flex flex-col flex-nowrap overflow-y-auto gap-4 flex-1">
-        {content.channels &&
-          Object.keys(content.channels).map((category: any, index: number) => {
+        {channels &&
+          Object.keys(channels).map((category: any, index: number) => {
             return (
               <Collapsible.Root key={index} defaultOpen={true}>
                 <Collapsible.Trigger className="flex flex-row flex-nowrap items-center gap-2 uppercase text-xs font-bold w-full mb-2 ">
@@ -22,7 +63,7 @@ export default function Sidebar({ content }: { content: any }) {
                 </Collapsible.Trigger>
                 <Collapsible.Content>
                   <ul className="w-full flex flex-col flex-nowrap gap-1">
-                    {content.channels[category].map((channel: ChannelTypes) => {
+                    {channels[category].map((channel: ChannelTypes) => {
                       return (
                         <SidebarItem
                           key={channel.$id}
@@ -39,7 +80,7 @@ export default function Sidebar({ content }: { content: any }) {
             );
           })}
       </ul>
-      <Account account={content.account} />
+      <Account />
     </aside>
   );
 }

@@ -26,7 +26,7 @@ export default function Channel({ params }: { params: any }) {
 
   return (
     <TextWrapper>
-      <TextTitle>
+      {/* <TextTitle>
         <Skeleton />
       </TextTitle>
       <div className="h-full w-full overflow-hidden flex flex-row flex-nowrap">
@@ -40,7 +40,7 @@ export default function Channel({ params }: { params: any }) {
             <ChatInput channel={"loading"} server={"loading"} />
           </div>
         </div>
-      </div>
+      </div> */}
     </TextWrapper>
   );
 }
