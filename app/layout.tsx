@@ -2,6 +2,10 @@ import "./globals.css";
 import { Nunito } from "next/font/google";
 import { SidebarProvider } from "#/context/sidebarContext";
 import { MemberListProvider } from "#/context/memberListContext";
+import Wrapper from "#/ui/layout/Wrapper";
+import SidebarWrapper from "#/ui/layout/sidebar/Wrapper";
+import ServerSidebar from "#/ui/layout/sidebar/server/Sidebar";
+import Sidebar from "#/ui/layout/sidebar/Sidebar";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -13,7 +17,7 @@ export const metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactElement;
 }) {
   return (
     <html lang="en" className={`${font.className}`}>
@@ -21,7 +25,13 @@ export default function RootLayout({
         <MemberListProvider>
           <body className="h-screen w-screen overflow-hidden flex flex-col flex-nowrap bg-slate-300 dark:bg-slate-900">
             <div className="flex-1 flex flex-row flex-nowrap overflow-hidden">
-              {children}
+              <Wrapper>
+                <SidebarWrapper>
+                  <ServerSidebar />
+                  <Sidebar />
+                </SidebarWrapper>
+                {children}
+              </Wrapper>
             </div>
           </body>
         </MemberListProvider>

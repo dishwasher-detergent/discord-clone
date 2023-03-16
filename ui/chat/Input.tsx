@@ -9,25 +9,41 @@ import {
   Smile,
   Send,
 } from "lucide-react";
-import { useRef, useState } from "react";
-import { useSelectedLayoutSegments } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Permission, Role } from "appwrite";
 
-interface ChatInputProps {
-  channel: string;
-  server: string;
-}
-
-export default function ChatInput({ channel, server }: ChatInputProps) {
+export default function ChatInput() {
+  const path = usePathname();
+  const [serverId, setServerId] = useState<string>("");
+  const [channelId, setChannelId] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const channelIndex = path.split("/").findIndex((item) => item == "channel");
+    setServerId(path.split("/")[channelIndex + 1]);
+    setChannelId(path.split("/")[channelIndex + 2]);
+  }, [path]);
 
   const createMessage = async () => {
     const creator = await api.getAccount();
-    await api.createDocument("6407d0ca13d1d255cd32", {
-      creator: creator.$id,
-      message: message,
-      channel: channel,
-      server: server,
-    });
+    const server = await api.getDocument(serverId, "6407d0c519ecaeb89836");
+
+    if (creator && server) {
+      await api.createDocument(
+        "6407d0ca13d1d255cd32",
+        {
+          creator: creator.$id,
+          message: message,
+          channel: channelId,
+          server: serverId,
+        },
+        [
+          Permission.read(Role.team(server.team)),
+          Permission.write(Role.user(creator.$id)),
+        ]
+      );
+    }
   };
 
   return (

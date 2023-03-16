@@ -6,27 +6,27 @@ import ChatWelcome from "#/ui/chat/Welcome";
 import api from "#/utils/appwrite";
 import { Server } from "#/utils/config";
 import { Query } from "appwrite";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-interface ChatInputProps {
-  initialMessages: MessageTypes[];
-  server: string;
-  channel: string;
-}
-
-export default function TextChat({
-  initialMessages,
-  server,
-  channel,
-}: ChatInputProps) {
-  const [messages, setMessages] = useState<MessageTypes[]>(initialMessages);
+export default function TextChat() {
+  const path = usePathname();
+  const [serverId, setServerId] = useState<string>("");
+  const [channelId, setChannelId] = useState<string>("");
+  const [messages, setMessages] = useState<MessageTypes[]>([]);
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [prevScrollTop, setPrevScrollTop] = useState<number | null>(null);
   const [response, setResponse] = useState<MessageTypes | null>(null);
   const messageContainer = useRef(null);
 
   useEffect(() => {
-    const test = api
+    const channelIndex = path.split("/").findIndex((item) => item == "channel");
+    setServerId(path.split("/")[channelIndex + 1]);
+    setChannelId(path.split("/")[channelIndex + 2]);
+  }, [path]);
+
+  useEffect(() => {
+    const unsubscribe = api
       .provider()
       .client.subscribe(
         `databases.${Server.databaseID}.collections.6407d0ca13d1d255cd32.documents`,
@@ -36,28 +36,27 @@ export default function TextChat({
       );
 
     return function cleanup() {
-      test();
+      unsubscribe();
     };
   }, []);
 
   useEffect(() => {
-    if (response) {
-      api
-        .getMessages("640fa83096da31a1f220", {
-          databaseId: Server.databaseID,
-          collectionId: "6407d0ca13d1d255cd32",
-          filter: [
-            Query.equal("server", server),
-            Query.equal("channel", channel),
-            Query.orderDesc("$createdAt"),
-            Query.limit(25),
-          ],
-        })
-        .then((res) => {
-          const message = JSON.parse(res.response).messages[0] as MessageTypes;
-          setMessages([message, ...messages]);
-        });
-    }
+    api
+      .getMessages("640fa83096da31a1f220", {
+        databaseId: Server.databaseID,
+        collectionId: "6407d0ca13d1d255cd32",
+        filter: [
+          Query.equal("server", serverId),
+          Query.equal("channel", channelId),
+          Query.orderDesc("$createdAt"),
+          Query.limit(25),
+        ],
+      })
+      .then((res) => {
+        const message = JSON.parse(res.response).messages[0] as MessageTypes;
+
+        if (message) setMessages([message, ...messages]);
+      });
   }, [response]);
 
   const onScroll = async () => {
@@ -72,8 +71,8 @@ export default function TextChat({
           databaseId: Server.databaseID,
           collectionId: "6407d0ca13d1d255cd32",
           filter: [
-            Query.equal("server", server),
-            Query.equal("channel", channel),
+            Query.equal("server", serverId),
+            Query.equal("channel", channelId),
             Query.orderDesc("$createdAt"),
             Query.limit(25),
             Query.cursorAfter(messages[messages.length - 1].message.$id),

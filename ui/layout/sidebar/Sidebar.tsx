@@ -10,30 +10,36 @@ import api from "#/utils/appwrite";
 import { ServerTypes } from "#/types/ServerTypes";
 import { Query } from "appwrite";
 import Account from "#/ui/layout/sidebar/Account";
+import { usePathname } from "next/navigation";
 
-//   const account = await checkLoggedInStatus();
-
-export default function Sidebar({ server }: { server: string }) {
+export default function Sidebar() {
+  const path = usePathname();
+  const [serverId, setServerId] = useState<string>("");
   const [serverInfo, setServer] = useState<ServerTypes | null>(null);
   const [channels, setChannel] = useState<ChannelTypes[]>([]);
 
   useEffect(() => {
-    api.getDocument(server, "6407d0c519ecaeb89836").then((response) => {
-      const servers = response as ServerTypes;
+    setServerId(
+      path.split("/")[
+        path.split("/").findIndex((item) => item == "channel") + 1
+      ]
+    );
+  }, [path]);
 
+  useEffect(() => {
+    api.getDocument(serverId, "6407d0c519ecaeb89836").then((response) => {
+      const servers = response as ServerTypes;
       setServer(servers);
     });
-  }, []);
+  }, [serverId]);
 
   useEffect(() => {
     api
-      .listDocuments("6407d0c0eb16af0ec5e2", [Query.equal("server", server)])
+      .listDocuments("6407d0c0eb16af0ec5e2", [Query.equal("server", serverId)])
       .then((response) => {
         let category = [];
-
         if (response) {
           const channels = response?.documents as ChannelTypes[];
-
           category = channels.reduce(
             (groups: any, item: any) => ({
               ...groups,
@@ -47,7 +53,7 @@ export default function Sidebar({ server }: { server: string }) {
         }
         setChannel(category);
       });
-  }, []);
+  }, [serverId]);
 
   return (
     <aside className="flex-1 rounded-t-xl md:rounded-tl-xl md:rounded-tr-none flex h-full bg-slate-100 overflow-hidden flex-col flex-nowrap dark:bg-slate-800">
