@@ -7,19 +7,23 @@ import Link from "next/link";
 interface ItemProps {
   children: React.ReactNode;
   channel: string;
+  selected?: boolean;
   type?: "text" | "voice";
 }
 
 export default function SidebarItem({
   children,
   type = "text",
+  selected = false,
   channel,
 }: ItemProps) {
   return (
     <li>
       <Link
         href={`/channel/${channel}`}
-        className="w-full pl-3 pr-1 py-1 rounded-md flex flex-row flex-nowrap gap-2 justify-between items-center hover:bg-slate-700/10 dark:hover:bg-white/10 cursor-pointer"
+        className={`w-full pl-3 pr-1 py-1 rounded-md flex flex-row flex-nowrap gap-2 justify-between items-center hover:bg-slate-700/10 dark:hover:bg-white/10 cursor-pointer ${
+          selected ? "bg-slate-700/10 dark:bg-white/10" : ""
+        }`}
       >
         <p className="flex flex-row flex-nowarp gap-2 items-center dark:text-white text-base truncate w-full">
           <span className="text-slate-600 dark:text-slate-400">

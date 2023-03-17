@@ -19,7 +19,7 @@ export default function SidebarWrapper({
       {sidebar && (
         <motion.aside
           initial={{ width: 0 }}
-          animate={{ width: medium ? "22rem" : "80%" }}
+          animate={{ width: medium ? "20rem" : "80%" }}
           exit={{ width: 0 }}
           transition={{ ease: "easeInOut", duration: 0.25 }}
           key="sidebar"

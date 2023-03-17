@@ -29,7 +29,7 @@ export default function ServerAvatar({
         <Tooltip.Root>
           <Tooltip.Trigger asChild>
             <li
-              className="w-full grid place-items-center relative"
+              className="w-full grid place-items-center relative px-3"
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
             >

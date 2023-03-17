@@ -18,17 +18,17 @@ export default function ServerSidebar() {
   }, []);
 
   return (
-    <aside className="w-20 flex-none py-4 bg-slate-300 h-full overflow-hidden dark:bg-slate-900">
+    <aside className="w-[4.5rem] flex-none py-4 bg-slate-300 h-full overflow-hidden dark:bg-slate-900">
       <ul className="server w-full h-full flex flex-col flex-nowrap overflow-y-auto items-center gap-2">
         <div className="w-full flex flex-col flex-nowrap items-center gap-2">
-          <Login />
-          <div className="w-10 h-0.5 rounded-full bg-slate-500" />
+          <ServerAvatar width="100%" title="Direct Messages" server="@me" />
+          <div className="w-1/2 h-0.5 rounded-full bg-slate-400" />
         </div>
         {content.map((server: ServerTypes) => {
           return (
             <ServerAvatar
               key={server.$id}
-              width="70%"
+              width="100%"
               title={server.title}
               server={server.$id}
             />

@@ -15,15 +15,15 @@ import { usePathname } from "next/navigation";
 export default function Sidebar() {
   const path = usePathname();
   const [serverId, setServerId] = useState<string>("");
+  const [channelId, setChannelId] = useState<string>("");
   const [serverInfo, setServer] = useState<ServerTypes | null>(null);
   const [channels, setChannel] = useState<ChannelTypes[]>([]);
 
   useEffect(() => {
-    setServerId(
-      path.split("/")[
-        path.split("/").findIndex((item) => item == "channel") + 1
-      ]
-    );
+    const channelIndex = path.split("/").findIndex((item) => item == "channel");
+
+    setServerId(path.split("/")[channelIndex + 1]);
+    setChannelId(path.split("/")[channelIndex + 2]);
   }, [path]);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ export default function Sidebar() {
   }, [serverId]);
 
   return (
-    <aside className="flex-1 rounded-t-xl md:rounded-tl-xl md:rounded-tr-none flex h-full bg-slate-100 overflow-hidden flex-col flex-nowrap dark:bg-slate-800">
+    <aside className="flex-1 rounded-t-xl md:rounded-none flex h-full bg-slate-100 overflow-hidden flex-col flex-nowrap dark:bg-slate-800">
       <SidebarTitle>{serverInfo && serverInfo.title}</SidebarTitle>
       <ul className="sidebar w-full py-4 px-2.5 flex flex-col flex-nowrap overflow-y-auto gap-4 flex-1">
         {channels &&
@@ -75,6 +75,7 @@ export default function Sidebar() {
                           key={channel.$id}
                           type={channel.type}
                           channel={`${channel.server}/${channel.$id}`}
+                          selected={channelId == channel.$id}
                         >
                           {channel.title}
                         </SidebarItem>

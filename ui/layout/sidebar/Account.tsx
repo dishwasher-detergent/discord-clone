@@ -21,50 +21,19 @@ export default function Account() {
   }, []);
 
   return (
-    <div className="w-full h-14 border-t border-slate-300 flex items-center p-2 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900">
+    <div className="w-full h-14 border-t border-slate-300 overflow-hidden flex items-center p-2 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900">
       {account && (
-        <>
-          <div className="h-full w-full flex-1 flex flex-row flex-nowrap items-center gap-2">
-            <Avatar
-              height={"100%"}
-              avatar={account.prefs.avatar}
-              title="User Icon"
-            />
-            <div className="text-sm overflow-hidden dark:text-white">
-              <p className="truncate font-bold">{account.name}</p>
-              <p className="text-xs truncate">{account.$id}</p>
-            </div>
+        <div className="h-full flex-1 flex flex-row flex-nowrap items-center gap-2">
+          <Avatar
+            height={"100%"}
+            avatar={account.prefs.avatar}
+            title="User Icon"
+          />
+          <div className="text-sm overflow-hidden dark:text-white">
+            <p className="truncate font-bold">{account.name}</p>
+            <p className="text-xs truncate">{account.$id}</p>
           </div>
-          <div className="flex-none flex flex-row flex-nowrap">
-            <IconButton
-              tooltip={{
-                message: "Mute",
-                align: "center",
-                position: "top",
-              }}
-            >
-              <Mic size={20} />
-            </IconButton>
-            <IconButton
-              tooltip={{
-                message: "Deafen",
-                align: "center",
-                position: "top",
-              }}
-            >
-              <Headphones size={20} />
-            </IconButton>
-            <IconButton
-              tooltip={{
-                message: "User Settings",
-                align: "center",
-                position: "top",
-              }}
-            >
-              <Settings size={20} />
-            </IconButton>
-          </div>
-        </>
+        </div>
       )}
     </div>
   );
