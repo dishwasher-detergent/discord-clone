@@ -41,23 +41,23 @@ export default function TextChat() {
   }, []);
 
   useEffect(() => {
-    api
-      .getMessages("640fa83096da31a1f220", {
-        databaseId: Server.databaseID,
-        collectionId: "6407d0ca13d1d255cd32",
-        filter: [
-          Query.equal("server", serverId),
-          Query.equal("channel", channelId),
-          Query.orderDesc("$createdAt"),
-          Query.limit(25),
-        ],
-      })
-      .then((res) => {
-        const message = JSON.parse(res.response).messages[0] as MessageTypes;
-
-        if (message) setMessages([message, ...messages]);
-      });
-  }, [response]);
+    if (serverId && channelId)
+      api
+        .getMessages("640fa83096da31a1f220", {
+          databaseId: Server.databaseID,
+          collectionId: "6407d0ca13d1d255cd32",
+          filter: [
+            Query.equal("server", serverId),
+            Query.equal("channel", channelId),
+            Query.orderDesc("$createdAt"),
+            Query.limit(response ? 1 : 25),
+          ],
+        })
+        .then((res) => {
+          const message = JSON.parse(res.response).messages as MessageTypes[];
+          if (message) setMessages([...message, ...messages]);
+        });
+  }, [response, serverId, channelId]);
 
   const onScroll = async () => {
     if (fetchingMessages) return;

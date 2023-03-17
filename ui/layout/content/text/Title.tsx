@@ -16,7 +16,7 @@ export default function TextTitle({ children }: TitleProps) {
   const { memberList, toggleMemberList } = useContext(MemberListContext);
 
   return (
-    <div className="w-full h-14 border-b border-slate-300 flex items-center px-4 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900 dark:bg-slate-700">
+    <div className="w-full h-12 border-b border-slate-300 flex items-center px-4 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900 dark:bg-slate-700">
       <div className="flex flex-row gap-2">
         <SidebarToggle />
         <h2 className="flex flex-row flex-nowarp gap-2 items-center font-bold dark:text-white">

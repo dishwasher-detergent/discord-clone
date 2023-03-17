@@ -1,26 +1,42 @@
 "use client";
 
 import api from "#/utils/appwrite";
-import { MessageTypes } from "#/types/MessageTypes";
 import TextWrapper from "#/ui/layout/content/text/Wrapper";
 import MemberList from "#/ui/member/List";
 import TextTitle from "#/ui/layout/content/text/Title";
 import TextChat from "#/ui/layout/content/text/Chat";
 import ChatInput from "#/ui/chat/Input";
-import { Query } from "appwrite";
 import { useEffect, useState } from "react";
 import { ChannelTypes } from "#/types/ChannelTypes";
+import { Query } from "appwrite";
+import { useRouter } from "next/navigation";
 
 export default function Channel({ params }: { params: any }) {
+  const router = useRouter();
   const [channelInfo, setChannel] = useState<any>(null);
 
   useEffect(() => {
-    api
-      .getDocument(params.server[1], "6407d0c0eb16af0ec5e2")
-      .then((response) => {
-        const channels = response as ChannelTypes;
-        setChannel(channels);
-      });
+    if (params.server.length < 2) {
+      api
+        .listDocuments("6407d0c0eb16af0ec5e2", [
+          Query.equal("server", params.server[0]),
+          Query.equal("default", true),
+        ])
+        .then((response) => {
+          if (response) {
+            router.push(
+              `channel/${params.server[0]}/${response.documents[0].$id}`
+            );
+          }
+        });
+    } else {
+      api
+        .getDocument(params.server[1], "6407d0c0eb16af0ec5e2")
+        .then((response) => {
+          const channels = response as ChannelTypes;
+          setChannel(channels);
+        });
+    }
   }, [params]);
 
   return (

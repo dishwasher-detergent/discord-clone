@@ -12,9 +12,11 @@ import {
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Permission, Role } from "appwrite";
+import useKeyPress from "#/hooks/useKeyPress";
 
 export default function ChatInput() {
   const path = usePathname();
+  const { downHandler, upHandler } = useKeyPress("shift enter");
   const [serverId, setServerId] = useState<string>("");
   const [channelId, setChannelId] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
@@ -25,24 +27,28 @@ export default function ChatInput() {
     setChannelId(path.split("/")[channelIndex + 2]);
   }, [path]);
 
-  const createMessage = async () => {
+  const createMessage = async (e: any) => {
     const creator = await api.getAccount();
     const server = await api.getDocument(serverId, "6407d0c519ecaeb89836");
 
     if (creator && server) {
-      await api.createDocument(
-        "6407d0ca13d1d255cd32",
-        {
-          creator: creator.$id,
-          message: message,
-          channel: channelId,
-          server: serverId,
-        },
-        [
-          Permission.read(Role.team(server.team)),
-          Permission.write(Role.user(creator.$id)),
-        ]
-      );
+      await api
+        .createDocument(
+          "6407d0ca13d1d255cd32",
+          {
+            creator: creator.$id,
+            message: message,
+            channel: channelId,
+            server: serverId,
+          },
+          [
+            Permission.read(Role.team(server.team)),
+            Permission.write(Role.user(creator.$id)),
+          ]
+        )
+        .then(() => {
+          e.target.innerText = "";
+        });
     }
   };
 
@@ -58,18 +64,14 @@ export default function ChatInput() {
           role="textarea"
           contentEditable
           onInput={(e: any) => setMessage(e.target.innerHTML)}
+          onKeyDown={(e: any) => downHandler(e)}
+          onKeyUp={(e: any) => upHandler(e, () => createMessage(e))}
           className="overflow-x-hidden bg-transparent h-full flex-1 p-2.5 dark:text-white"
           placeholder="Message #Channel"
         />
         <div className="sticky top-0 p-1">
           <div className="flex flex-row justify-center items-center">
-            <button
-              onClick={() => createMessage()}
-              className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white"
-            >
-              <Send size={20} />
-            </button>
-            <button className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white">
+            {/* <button className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white">
               <Gift size={20} />
             </button>
             <button className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white">
@@ -80,7 +82,7 @@ export default function ChatInput() {
             </button>
             <button className="block p-2 rounded-xl hover:bg-slate-700/10 dark:hover:bg-white/10 dark:text-white">
               <Smile size={20} />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
