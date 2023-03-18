@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { ChannelTypes } from "#/types/ChannelTypes";
 import { Query } from "appwrite";
 import { useRouter } from "next/navigation";
+import SkeletonMessages from "#/ui/skeleton/chat/Messages";
+import Skeleton from "#/ui/skeleton/Skeleton";
 
 export default function Channel({ params }: { params: any }) {
   const router = useRouter();
@@ -41,10 +43,10 @@ export default function Channel({ params }: { params: any }) {
 
   return (
     <TextWrapper>
-      <TextTitle>{channelInfo && channelInfo.title}</TextTitle>
+      <TextTitle>{channelInfo ? channelInfo.title : <Skeleton />}</TextTitle>
       <div className="h-full w-full overflow-hidden flex flex-row flex-nowrap">
         <div className="flex-1 overflow-hidden w-full flex flex-col flex-nowrap p-2">
-          <TextChat />
+          {params.server[1] ? <TextChat /> : <SkeletonMessages count={25} />}
           <div className="p-4">
             <ChatInput />
           </div>

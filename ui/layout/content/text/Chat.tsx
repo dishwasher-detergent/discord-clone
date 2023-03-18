@@ -1,29 +1,23 @@
 "use client";
 
+import useParams from "#/hooks/useParams";
 import { MessageTypes } from "#/types/MessageTypes";
 import Message from "#/ui/chat/Message";
 import ChatWelcome from "#/ui/chat/Welcome";
+import SkeletonMessages from "#/ui/skeleton/chat/Messages";
 import api from "#/utils/appwrite";
 import { Server } from "#/utils/config";
 import { Query } from "appwrite";
-import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function TextChat() {
-  const path = usePathname();
-  const [serverId, setServerId] = useState<string>("");
-  const [channelId, setChannelId] = useState<string>("");
+  const { serverId, channelId } = useParams();
   const [messages, setMessages] = useState<MessageTypes[]>([]);
+  const [totalMessages, setTotalMessages] = useState<number>(0);
   const [fetchingMessages, setFetchingMessages] = useState<boolean>(false);
   const [prevScrollTop, setPrevScrollTop] = useState<number | null>(null);
   const [response, setResponse] = useState<MessageTypes | null>(null);
   const messageContainer = useRef(null);
-
-  useEffect(() => {
-    const channelIndex = path.split("/").findIndex((item) => item == "channel");
-    setServerId(path.split("/")[channelIndex + 1]);
-    setChannelId(path.split("/")[channelIndex + 2]);
-  }, [path]);
 
   useEffect(() => {
     const unsubscribe = api
@@ -54,6 +48,7 @@ export default function TextChat() {
           ],
         })
         .then((res) => {
+          setTotalMessages(JSON.parse(res.response).total);
           const message = JSON.parse(res.response).messages as MessageTypes[];
           if (message) setMessages([...message, ...messages]);
         });
@@ -98,7 +93,11 @@ export default function TextChat() {
         {messages.map((message: MessageTypes, index: number) => {
           return <Message key={message.message.$id} content={message} />;
         })}
-        <ChatWelcome server="test" />
+        {messages.length == totalMessages ? (
+          <ChatWelcome server="test" />
+        ) : (
+          <SkeletonMessages count={6} />
+        )}
       </div>
     </div>
   );

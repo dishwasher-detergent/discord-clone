@@ -10,22 +10,14 @@ import {
   Send,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { Permission, Role } from "appwrite";
 import useKeyPress from "#/hooks/useKeyPress";
+import useParams from "#/hooks/useParams";
 
 export default function ChatInput() {
-  const path = usePathname();
+  const { serverId, channelId } = useParams();
   const { downHandler, upHandler } = useKeyPress("shift enter");
-  const [serverId, setServerId] = useState<string>("");
-  const [channelId, setChannelId] = useState<string>("");
   const [message, setMessage] = useState<string | null>(null);
-
-  useEffect(() => {
-    const channelIndex = path.split("/").findIndex((item) => item == "channel");
-    setServerId(path.split("/")[channelIndex + 1]);
-    setChannelId(path.split("/")[channelIndex + 2]);
-  }, [path]);
 
   const createMessage = async (e: any) => {
     const creator = await api.getAccount();

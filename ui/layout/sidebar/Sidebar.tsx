@@ -10,21 +10,12 @@ import api from "#/utils/appwrite";
 import { ServerTypes } from "#/types/ServerTypes";
 import { Query } from "appwrite";
 import Account from "#/ui/layout/sidebar/Account";
-import { usePathname } from "next/navigation";
+import useParams from "#/hooks/useParams";
 
 export default function Sidebar() {
-  const path = usePathname();
-  const [serverId, setServerId] = useState<string>("");
-  const [channelId, setChannelId] = useState<string>("");
+  const { serverId, channelId } = useParams();
   const [serverInfo, setServer] = useState<ServerTypes | null>(null);
   const [channels, setChannel] = useState<ChannelTypes[]>([]);
-
-  useEffect(() => {
-    const channelIndex = path.split("/").findIndex((item) => item == "channel");
-
-    setServerId(path.split("/")[channelIndex + 1]);
-    setChannelId(path.split("/")[channelIndex + 2]);
-  }, [path]);
 
   useEffect(() => {
     api.getDocument(serverId, "6407d0c519ecaeb89836").then((response) => {

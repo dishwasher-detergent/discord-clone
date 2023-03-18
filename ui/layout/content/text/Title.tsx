@@ -27,7 +27,7 @@ export default function TextTitle({ children }: TitleProps) {
         </h2>
       </div>
       <div className="flex-none flex flex-row gap-1">
-        <IconButton
+        {/* <IconButton
           tooltip={{ message: "Threads", position: "bottom", align: "center" }}
         >
           <Hash size={20} />
@@ -49,7 +49,7 @@ export default function TextTitle({ children }: TitleProps) {
           }}
         >
           <Pin size={20} />
-        </IconButton>
+        </IconButton> */}
         <IconButton
           onClick={() => toggleMemberList()}
           tooltip={{
@@ -60,7 +60,7 @@ export default function TextTitle({ children }: TitleProps) {
         >
           <Users size={20} />
         </IconButton>
-        <Input placeholder="Search" />
+        {/* <Input placeholder="Search" />
         <IconButton
           tooltip={{ message: "Inbox", position: "bottom", align: "center" }}
         >
@@ -70,7 +70,7 @@ export default function TextTitle({ children }: TitleProps) {
           tooltip={{ message: "Test", position: "bottom", align: "end" }}
         >
           <HelpCircle size={20} />
-        </IconButton>
+        </IconButton> */}
       </div>
     </div>
   );

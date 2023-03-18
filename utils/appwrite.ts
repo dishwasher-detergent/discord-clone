@@ -79,6 +79,10 @@ type ApiType = {
   getFilePreview: (fileId: string, option: PreviewFileType) => URL;
   deleteFile: (fileID: string) => Promise<{}>;
   getMessages: (functionId: string, data?: object) => Promise<Models.Execution>;
+  getMemberships: (
+    functionId: string,
+    data?: object
+  ) => Promise<Models.Execution>;
   checkSessionStatus: () => Promise<Models.Session | null>;
 };
 
@@ -233,6 +237,12 @@ const api: ApiType = {
   },
 
   getMessages: async (functionId, data = {}) => {
+    return await api
+      .provider()
+      .func.createExecution(functionId, JSON.stringify(data));
+  },
+
+  getMemberships: async (functionId, data = {}) => {
     return await api
       .provider()
       .func.createExecution(functionId, JSON.stringify(data));

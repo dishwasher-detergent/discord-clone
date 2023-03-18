@@ -14,10 +14,8 @@ const sdk = require("node-appwrite");
 
   {
     "databaseId":"6407d0b0c40a37d4f06c",
-    "collectionId":"6407d0ca13d1d255cd32",
-    "server":"6407d4d050e0aba23b9d",
-    "channel":"6407dda5c9524982b03e",
-    "limit":25
+    "collectionId":"6407d0c519ecaeb89836",
+    "documentId":"64126514c5d24ae2cc9e"
   }
 */
 
@@ -25,6 +23,7 @@ module.exports = async function (req, res) {
   const client = new sdk.Client();
 
   const database = new sdk.Databases(client);
+  const teams = new sdk.Teams(client);
   const users = new sdk.Users(client);
 
   if (
@@ -46,17 +45,21 @@ module.exports = async function (req, res) {
       .setSelfSigned(true);
   }
 
-  const { databaseId, collectionId, filter } = JSON.parse(req.payload);
+  const { databaseId, collectionId, documentId } = JSON.parse(req.payload);
 
-  const database_results = await database.listDocuments(
+  const database_results = await database.getDocument(
     databaseId,
     collectionId,
-    filter
+    documentId
   );
+
+  const teams_results = await teams.listMemberships(database_results.team);
   const user_results = await users.list();
 
-  const messages = database_results.documents.map((message) => {
-    const user = user_results.users.filter((x) => x.$id == message.creator)[0];
+  const members = teams_results.memberships.map((teamMember) => {
+    const user = user_results.users.filter(
+      (x) => x.$id == teamMember.userId
+    )[0];
 
     return {
       user: {
@@ -64,13 +67,24 @@ module.exports = async function (req, res) {
         name: user.name,
         prefs: user.prefs,
       },
-      message: message,
+      member: teamMember,
     };
   });
 
+  // const members = teams_results.memberships.reduce(
+  //   (groups, item) => ({
+  //     ...groups,
+  //     [item.roles.toLowerCase()]: [
+  //       ...(groups[item.roles.toLowerCase()] || []),
+  //       item,
+  //     ],
+  //   }),
+  //   {}
+  // );
+
   res.json({
     status: "Success",
-    messages: messages,
-    total: database_results.total,
+    members: members,
+    total: teams_results.total,
   });
 };
