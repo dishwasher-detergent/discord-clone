@@ -21,12 +21,11 @@ export default function MemberList() {
         documentId: serverId,
       })
       .then((res) => {
+        console.log(res);
         const member = JSON.parse(res.response).members as MemberTypes[];
         if (member) setMembers(member);
       });
   }, [serverId]);
-
-  console.log(members);
 
   return (
     memberList && (

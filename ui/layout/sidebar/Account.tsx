@@ -1,15 +1,10 @@
 "use client";
 
 import Avatar from "#/ui/avatar/User";
-import IconButton from "#/ui/buttons/Icon";
+import Login from "#/ui/form/login/Login";
 import api from "#/utils/appwrite";
 import { Models } from "appwrite";
-import { Mic, Headphones, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
-
-interface AccountProps {
-  account: Models.Preferences;
-}
 
 export default function Account() {
   const [account, setAccount] = useState<Models.Preferences | null>(null);
@@ -22,7 +17,7 @@ export default function Account() {
 
   return (
     <div className="w-full h-14 border-t border-slate-300 overflow-hidden flex items-center p-2 flex-row flex-nowrap gap-2 justify-between flex-none dark:border-slate-900">
-      {account && (
+      {account ? (
         <div className="h-full flex-1 flex flex-row flex-nowrap items-center gap-2">
           <Avatar
             height={"100%"}
@@ -34,6 +29,8 @@ export default function Account() {
             <p className="text-xs truncate">{account.$id}</p>
           </div>
         </div>
+      ) : (
+        <Login />
       )}
     </div>
   );

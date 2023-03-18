@@ -3,10 +3,7 @@ import { Server } from "#/utils/config";
 export async function POST(req: any) {
   let request;
 
-  if (req.body.email && req.body.password) {
-    // You could get email and password here
-    const { email, password } = req.body;
-
+  if (req.headers.get("email") && req.headers.get("password")) {
     request = await fetch(Server.endpoint + "/account/sessions/email", {
       method: "POST",
       headers: {
@@ -14,8 +11,8 @@ export async function POST(req: any) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email: req.headers.get("email"),
+        password: req.headers.get("password"),
       }),
     });
   } else {

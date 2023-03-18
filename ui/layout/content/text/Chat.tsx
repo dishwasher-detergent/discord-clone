@@ -48,6 +48,7 @@ export default function TextChat() {
           ],
         })
         .then((res) => {
+          if (!res?.response) return;
           setTotalMessages(JSON.parse(res.response).total);
           const message = JSON.parse(res.response).messages as MessageTypes[];
           if (message) setMessages([...message, ...messages]);
