@@ -35,7 +35,7 @@ export default function TextChat() {
   }, []);
 
   useEffect(() => {
-    if (serverId && channelId)
+    if (serverId && channelId) {
       api
         .getMessages("640fa83096da31a1f220", {
           databaseId: Server.databaseID,
@@ -53,7 +53,8 @@ export default function TextChat() {
           const message = JSON.parse(res.response).messages as MessageTypes[];
           if (message) setMessages([...message, ...messages]);
         });
-  }, [response, serverId, channelId]);
+    }
+  }, [response]);
 
   const onScroll = async () => {
     if (fetchingMessages) return;

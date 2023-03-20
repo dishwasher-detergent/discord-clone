@@ -22,7 +22,6 @@ export default function Login() {
           password: password,
         }),
       });
-      console.log(req);
     } catch (error: any) {
       console.log(error);
     }
